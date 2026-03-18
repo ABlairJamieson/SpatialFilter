@@ -44,6 +44,9 @@ This allows realistic modeling of:
 
 - `plot_spot.py`  
   Visualizes beam intensity at selected planes
+<img width="1018" height="881" alt="db_s5_d29p18_p8" src="https://github.com/user-attachments/assets/f0fe14e0-89d8-4bce-b4cd-6217401a001c" />
+
+  
 
 - `plot_s4.py`  
   Specialized plotting for pinhole plane (surface 4)
@@ -71,3 +74,6 @@ Example:
 
 ```bash
 python make_beam.py --w_main 1.0 --w_tail 10.0 --tail_frac 0.01
+
+
+
