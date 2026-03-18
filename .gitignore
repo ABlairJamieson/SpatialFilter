@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+
+# Large outputs
+results/
+beamfiles/
+.venv/
+
+# CODE V junk
+*.log
+*.out
+*.tmp
+spatial_filter_520nm_pass1.*.len
+
+# OS
+.DS_Store
+Thumbs.db
