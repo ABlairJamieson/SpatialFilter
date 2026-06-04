@@ -16,3 +16,8 @@ spatial_filter_520nm_pass1.*.len
 # OS
 .DS_Store
 Thumbs.db
+
+#others
+2026may26/
+test_*
+*.env
