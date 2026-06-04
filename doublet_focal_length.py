@@ -377,6 +377,7 @@ if __name__ == "__main__":
     # Replace these with actual Thorlabs prescription values if available.
     #
     # Units can be mm, as long as all lengths use the same units.
+    
     lens = CementedDoublet(
         R1=20.9,
         R2=-16.7,
@@ -389,6 +390,24 @@ if __name__ == "__main__":
     )
 
     lens.print_summary()
-
     fig, ax = lens.draw()
+    print('***** Lens in orientation 1 done, close graphics to show reverse *****')
+    
+    plt.show()
+
+    lens_rev = CementedDoublet(
+        R1=79.8, 
+        R2=16.7,
+        R3=-20.9,
+        n1=1.80518,   # N-BAF10 at d-line, 587.6 nm
+        n2=1.67003,   # N-SF6HT at d-line, 587.6 nm
+        t12=2.0,
+        t23=12.0,
+        aperture_radius=12.7,  # half of 25.4 mm diameter
+    )
+
+    lens_rev.print_summary()
+
+    fig, ax = lens_rev.draw()
+    print('***** Lens in orientation 2 done, close graphics to exit *****')
     plt.show()
