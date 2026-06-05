@@ -1,0 +1,109 @@
+\section{Beam-Conditioning Simulation Framework}
+
+This framework models a laser beam propagated through apertures, optional lenses,
+and optional spatial-filter elements. The purpose is to evaluate whether the beam
+can be delivered into a \SI{3}{mm} diameter target region at a distance of
+\SI{1}{m}. The primary metric is the fraction of transmitted optical power
+outside a radius
+\[
+    r_{\rm target}=\SI{1.5}{mm}
+\]
+at
+\[
+    z_{\rm target}=\SI{1000}{mm}.
+\]
+The secondary metric is throughput. Configurations with high target containment
+but very low throughput should be rejected.
+
+\subsection{Files}
+
+The code has been split into a reusable library and short demo scripts:
+\begin{itemize}
+    \item \texttt{beam\_conditioning\_core.py}: reusable propagation, lens,
+    aperture, plotting, and optimization tools;
+    \item \texttt{student\_common.py}: default input beam and shared helpers;
+    \item \texttt{demo\_single\_propagation.py}: one fixed optical configuration;
+    \item \texttt{demo\_subsystem\_comparison.py}: compares increasingly
+    complicated systems;
+    \item \texttt{demo\_fixed\_aperture\_scan.py}: scans only aperture radii
+    while keeping lens positions fixed;
+    \item \texttt{demo\_optimize.py}: advanced exploratory optimizer.
+\end{itemize}
+
+The recommended starting point is
+\begin{verbatim}
+python demo_single_propagation.py
+\end{verbatim}
+This produces target-plane plots and a multi-page PDF showing the beam at saved
+planes. The PDF should be inspected to determine where the beam first becomes
+broader, clipped, or structured.
+
+\subsection{Model}
+
+The code propagates a scalar complex field
+\[
+    U(x,y;z),
+\]
+with intensity
+\[
+    I(x,y;z)=|U(x,y;z)|^2.
+\]
+Propagation is performed using the angular-spectrum method. Lenses are treated
+as thin-lens phase elements located at the appropriate principal planes computed
+from the cemented-doublet first-order model. Apertures and pinholes are hard
+circular stops. This model is useful for system-level diffraction and clipping
+studies, but it is not a replacement for full CODE V or Zemax aberration
+analysis.
+
+\subsection{Recommended Study Plan}
+
+The study should proceed in stages, with one clear question at each stage.
+
+\paragraph{Stage 1: Single fixed propagation.}
+Run \texttt{demo\_single\_propagation.py}. Record the throughput, fraction
+outside the target radius, and RMS radius. Inspect the beam-plane PDF. The goal
+is not to optimize, but to understand what each plane looks like.
+
+\paragraph{Stage 2: Subsystem comparison.}
+Run \texttt{demo\_subsystem\_comparison.py}. This compares:
+\begin{enumerate}
+    \item input beam only;
+    \item input apertures only;
+    \item input apertures plus lens 1;
+    \item input apertures plus lens 1 and lens 2;
+    \item lens pair with a pinhole;
+    \item lens pair with a post-lens aperture.
+\end{enumerate}
+A configuration should not be considered useful unless it improves on the simpler
+configuration before it.
+
+\paragraph{Stage 3: Fixed-layout aperture scan.}
+Run \texttt{demo\_fixed\_aperture\_scan.py}. This holds the lenses fixed in the
+expected common-focus geometry and scans only aperture radii. This is deliberately
+more constrained than a global optimization. It asks whether aperture-only cleanup
+can reduce the light outside the \SI{3}{mm} target while keeping acceptable
+throughput.
+
+\paragraph{Stage 4: Input-beam robustness.}
+After the baseline is understood, edit \texttt{student\_default\_input\_field}
+in \texttt{student\_common.py}. Repeat the first three studies for a circular
+Gaussian, elliptical Gaussian, tilted elliptical Gaussian, top-hat beam, and dirty
+Gaussian. A useful configuration should not depend strongly on one idealized input
+beam.
+
+\paragraph{Stage 5: Numerical convergence.}
+Promising cases should be rerun with larger grids. For example compare
+\[
+    N=1024,\quad L=\SI{18}{mm}
+\]
+with
+\[
+    N=2048,\quad L=\SI{18}{mm}.
+\]
+The target containment and encircled-energy curve should remain reasonably stable.
+
+\paragraph{Stage 6: Advanced optimization.}
+Only after the subsystem and aperture-only studies are understood should
+\texttt{demo\_optimize.py} be used. The optimizer can find mathematically better
+parameters, but these may not be physically meaningful. Any optimized candidate
+must be validated by rerunning the subsystem comparisons and larger-grid checks.

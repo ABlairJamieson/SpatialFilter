@@ -1,0 +1,7 @@
+Subsystem comparison
+--------------------
+input beam only                                T= 1.00000  outside=  2.0143e-03  inside= 99.79857%  rms=  0.6021 mm
+input apertures only                           T= 0.99999  outside=  1.9721e-03  inside= 99.80279%  rms=  0.6021 mm
+input apertures + L1 + L2                      T= 0.99999  outside=  1.5046e-06  inside= 99.99985%  rms=  0.3851 mm
+L1 + L2 + 50 um radius pinhole                 T= 0.99968  outside=  1.0250e-04  inside= 99.98975%  rms=  0.3856 mm
+L1 + L2 + post-L2 aperture r=2 mm              T= 0.99999  outside=  1.4025e-06  inside= 99.99986%  rms=  0.3851 mm
